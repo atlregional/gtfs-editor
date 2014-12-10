@@ -79,8 +79,6 @@ public class Agency extends Model {
             route.delete();
         }
 
-        // List<GisExport>
-        // Query query = JPA.em().createQuery("select * from gisexport_agency");
         // List<GisExport> gisexports = GisExport.find("agencies_id = ?", this).fetch();
         // for(GisExport export : gisexports)
         // {
