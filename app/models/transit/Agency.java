@@ -1,6 +1,7 @@
 package models.transit;
 
 import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinTable;
@@ -12,6 +13,9 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.hibernate.annotations.Type;
 
 import play.db.jpa.Model;
+
+import models.transit.*;
+import models.gis.*;
 
 @JsonIgnoreProperties({"entityId", "persistent"})
 @Entity
@@ -60,6 +64,29 @@ public class Agency extends Model {
         this.timezone = timezone;
         this.lang = lang;
         this.phone = phone;
+    }
+
+    public Agency delete() {
+        List<ServiceCalendar> calendars = ServiceCalendar.find("agency = ?", this).fetch();
+        for(ServiceCalendar calendar : calendars)
+        {
+            calendar.delete();
+        }
+
+        List<Route> routes = Route.find("agency = ?", this).fetch();
+        for(Route route : routes)
+        {
+            route.delete();
+        }
+
+        // List<GisExport>
+        // Query query = JPA.em().createQuery("select * from gisexport_agency");
+        // List<GisExport> gisexports = GisExport.find("agencies_id = ?", this).fetch();
+        // for(GisExport export : gisexports)
+        // {
+        //     export.delete();
+        // }
+        return super.delete();
     }
 
 }
