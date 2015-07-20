@@ -1,5 +1,4 @@
 bin
-conf/application.conf
 precompiled
 tmp
 lib
